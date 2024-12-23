@@ -17,10 +17,10 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        storageState: 'auth.json',
+        //storageState: 'auth.json',
         headless: false,
         launchOptions: {
-          slowMo: 50,
+          //slowMo: 50,
         },
       },
     },
