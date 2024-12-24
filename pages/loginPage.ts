@@ -16,7 +16,7 @@ export class LoginPage extends BasePage {
       logger.info(`Clicked login button`);
       return true;
     } catch (error) {
-      logger.info(`Login failed: ${error.message}`);
+      logger.info(`Login failed: ${error}`);
       return false;
     }
   }
