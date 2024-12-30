@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { PageFactory } from '../utils/PageFactory';
+import { PageFactory } from '../utils/pageFactory';
 import users from '../data/users.json';
 import products from '../data/products.json';
 import { logger } from '../utils/logging';
