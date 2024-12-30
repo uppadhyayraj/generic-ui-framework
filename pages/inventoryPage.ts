@@ -7,14 +7,14 @@ export class InventoryPage extends BasePage {
   }
 
   async addItemToCart(itemName: string) {
-    await this.click(`text=${itemName}`);
-    await this.click(`button:has-text("Add to cart")`);
+    await this.click(`//*[text()="${itemName}"]`);
+    await this.click(`//button[contains(text(), "Add to cart")]`);
     logger.info(`Added item to cart: ${itemName}`);
   }
 
   async removeItemFromCart(itemName: string) {
-    await this.click(`text=${itemName}`);
-    await this.click(`button:has-text("Remove")`);
+    await this.click(`//*[text()="${itemName}"]`);
+    await this.click(`//button[contains(text(), "Remove")]`);
     logger.info(`Removed item from cart: ${itemName}`);
   }
 
