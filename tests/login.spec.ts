@@ -11,6 +11,7 @@ let loginPage: LoginPage;
 beforeEach(async () => {
   loginPage = PageFactory.getPage('LoginPage') as LoginPage;
   await loginPage.init();
+});
 
 it('standard user can login', async () => {
   await loginPage.navigate('https://www.saucedemo.com/');

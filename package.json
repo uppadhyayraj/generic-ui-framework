@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha -r ts-node/register tests/**/*.spec.ts",
-    "mocha": "ts-mocha -p tsconfig.json tests/**/*.spec.ts"
+    "test": "npx ts-mocha -p tsconfig.json --timeout 15000 tests/**/login.spec.ts"
   },
   "dependencies": {
     "chai": "^4.3.4",

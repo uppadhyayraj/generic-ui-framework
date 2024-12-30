@@ -20,30 +20,64 @@ export class BasePage {
         await this.page.goto(url);
     }
 
+    async findElement(selector: string) {
+        if (selector.startsWith('//') || selector.startsWith('(')) {
+            return await this.page.$x(selector);
+        } else {
+            return await this.page.$(selector);
+        }
+    }
+
     async click(selector: string) {
-        await this.page.click(selector);
+        const element = await this.findElement(selector);
+        if (Array.isArray(element)) {
+            await element[0].click();
+        } else {
+            await element?.click();
+        }
     }
 
     async fill(selector: string, text: string) {
-        await this.page.type(selector, text);
+        const element = await this.findElement(selector);
+        if (Array.isArray(element)) {
+            await element[0].type(text);
+        } else {
+            await element?.type(text);
+        }
     }
 
     async waitForSelector(selector: string) {
-        await this.page.waitForSelector(selector);
+        if (selector.startsWith('//') || selector.startsWith('(')) {
+            await this.page.waitForXPath(selector);
+        } else {
+            await this.page.waitForSelector(selector);
+        }
     }
 
     async getText(selector: string): Promise<string | null> {
-        const element = await this.page.$(selector);
-        if (!element) {
-            return null;
+        const element = await this.findElement(selector);
+        if (Array.isArray(element)) {
+            if (!element[0]) {
+                return null;
+            }
+            const text = await this.page.evaluate(el => el.textContent, element[0]);
+            return text;
+        } else {
+            if (!element) {
+                return null;
+            }
+            const text = await this.page.evaluate(el => el.textContent, element);
+            return text;
         }
-        const text = await this.page.evaluate(el => el.textContent, element);
-        return text;
     }
 
     async isVisible(selector: string): Promise<boolean> {
-        const element = await this.page.$(selector);
-        return element !== null && await element.boundingBox() !== null;
+        const element = await this.findElement(selector);
+        if (Array.isArray(element)) {
+            return element[0] !== null && await element[0].boundingBox() !== null;
+        } else {
+            return element !== null && await element.boundingBox() !== null;
+        }
     }
 
     async takeScreenshot(name: string) {

@@ -13,18 +13,20 @@ class BrowserContext {
     if (!BrowserContext.pageInstance) {
         const pages = await BrowserContext.browserInstance.pages();
         BrowserContext.pageInstance = pages.length > 0 ? pages[0] : await BrowserContext.browserInstance.newPage();
+        BrowserContext.pageInstance.setDefaultNavigationTimeout(10000); 
+        BrowserContext.pageInstance.setDefaultTimeout(12000); 
     }
     return BrowserContext.pageInstance;
   }
 
   static async closeInstance() {
-    if (BrowserContext.pageInstance) {
-        await BrowserContext.pageInstance.close();
+    if (!BrowserContext.pageInstance?.isClosed()) {
+        await BrowserContext.pageInstance?.close();
         BrowserContext.pageInstance = null;
     }
     if (BrowserContext.browserInstance) {
         await BrowserContext.browserInstance.close();
-        BrowserContext.browserInstance = null;
+        //BrowserContext.browserInstance = null;
     }
   }
 }
